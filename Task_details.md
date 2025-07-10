@@ -71,5 +71,36 @@ python manage.py runserver
 6. Open in browser
 Visit http://127.0.0.1:8000 to view the app.
 
+📂 Project Structure
+bash
+Copy
+Edit
+/project-root
+│
+├── taskmanager/           # Main Django App
+│   ├── templates/         # HTML templates (login, signup, todo)
+│   ├── static/            # CSS files
+│   ├── models.py          # Task model
+│   ├── views.py           # All logic handled here
+│   ├── urls.py            # Route mapping
+│   └── forms.py           # (if used) Django forms
+│
+├── db.sqlite3             # Default database
+├── manage.py              # Django CLI tool
+└── requirements.txt       # List of dependencies
+
+![Task Form](screenshots/task_form.png)
+![Completed Tasks](screenshots/completed_tasks.png)
+👨‍💻 Author
+Developed with ❤️ by Your Name
+GitHub: @your-username
+
+🗣️ Contribute
+Want to contribute? You’re welcome!
+Feel free to fork the repo and raise a pull request.
+
+📃 License
+This project is licensed under the MIT License.
+
 
 
