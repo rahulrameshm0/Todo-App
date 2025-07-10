@@ -26,8 +26,8 @@ SECRET_KEY = 'django-insecure-5+%m=su*s8alk1_l57xi$x7e!o7d4s=e-k$ms(5_@!dkvt6qvm
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-CSRF_TRUSTED_ORIGINS = []
+ALLOWED_HOSTS = ['todo-app-dj3t.onrender.com','localhost', '127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://todo-app-dj3t.onrender.com']
 
 
 # Application definition
