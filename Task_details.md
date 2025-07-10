@@ -88,11 +88,8 @@ Visit http://127.0.0.1:8000 to view the app.
 └── requirements.txt       # List of dependencies
 
 
-![Task Form](screenshots/task_form.png)
-![Completed Tasks](screenshots/completed_tasks.png)
-
 ## 👨‍💻 Author
-Developed with ❤️ by Your Name
+Developed by Rahul
 GitHub: @rahulrameshm0
 
 ## 🗣️ Contribute
