@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+    color: #e0e0e0;
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.main-content {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Form Styling */
+form[action*="add"] {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 40px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+input[type="text"], input[type="date"], select {
+    flex: 1;
+    min-width: 200px;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus, input[type="date"]:focus, select:focus {
+    outline: none;
+    border-color: #00d4ff;
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+input[type="text"]::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+select {
+    cursor: pointer;
+}
+
+select option {
+    background: #1a1a2e;
+    color: #fff;
+    padding: 10px;
+}
+
+button[type="submit"] {
+    padding: 12px 30px;
+    background: linear-gradient(45deg, #00d4ff, #9c27b0);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+}
+
+button[type="submit"]:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
+}
+
+/* Task Section */
+.task h2 {
+    color: #00d4ff;
+    margin-bottom: 25px;
+    font-size: 28px;
+    font-weight: 700;
+    text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+}
+
+.form {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.form::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #00d4ff, #9c27b0, #00d4ff);
+    background-size: 200% 100%;
+    animation: gradient-shift 3s ease-in-out infinite;
+}
+
+@keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.form:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 212, 255, 0.2);
+    border-color: rgba(0, 212, 255, 0.3);
+}
+
+.form label {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    cursor: pointer;
+    accent-color: #00d4ff;
+}
+
+.form span {
+    display: inline-block;
+    margin-right: 15px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.form span:first-of-type {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.form span:last-of-type {
+    background: rgba(0, 212, 255, 0.2);
+    color: #00d4ff;
+}
+
+.form a {
+    color: #00d4ff;
+    text-decoration: none;
+    margin-right: 15px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.form a:hover {
+    background: rgba(0, 212, 255, 0.1);
+    transform: translateY(-1px);
+}
+
+/* Sidebar */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.filter, .complete_task {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.filter h4, .complete_task h2 {
+    color: #9c27b0;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 700;
+    text-shadow: 0 0 15px rgba(156, 39, 176, 0.5);
+}
+
+.filter p {
+    margin-bottom: 12px;
+}
+
+.filter a {
+    color: #e0e0e0;
+    text-decoration: none;
+    padding: 10px 15px;
+    display: block;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.filter a:hover {
+    background: rgba(156, 39, 176, 0.2);
+    color: #9c27b0;
+    transform: translateX(5px);
+}
+
+.completed_task form {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 10px;
+    opacity: 0.7;
+}
+
+.completed_task p {
+    margin-bottom: 8px;
+    text-decoration: line-through;
+    color: #888;
+}
+
+.completed_task span {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #aaa;
+}
+
+/* Logout Button */
+form[action*="login"] {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+form[action*="login"] button {
+    background: linear-gradient(45deg, #ff4757, #ff3838);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+}
+
+form[action*="login"] button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 71, 87, 0.4);
+}
+
+/* Priority Colors */
+.form span:first-of-type {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.form:has(span:contains("High")) span:first-of-type {
+    background: rgba(255, 71, 87, 0.2);
+    color: #ff4757;
+}
+
+.form:has(span:contains("Medium")) span:first-of-type {
+    background: rgba(255, 165, 0, 0.2);
+    color: #ffa500;
+}
+
+.form:has(span:contains("Low")) span:first-of-type {
+    background: rgba(46, 204, 113, 0.2);
+    color: #2ecc71;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 15px;
+    }
+    
+    form[action*="add"] {
+        flex-direction: column;
+    }
+    
+    input[type="text"], input[type="date"], select {
+        min-width: 100%;
+    }
+    
+    .main-content, .sidebar {
+        padding: 20px;
+    }
+    
+    form[action*="login"] {
+        position: relative;
+        top: auto;
+        right: auto;
+        margin-top: 20px;
+    }
+}
+
+/* Loading Animation */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.form:hover {
+    animation: pulse 2s infinite;
+}
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #00d4ff, #9c27b0);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #9c27b0, #00d4ff);
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-content">
+            <form action="{% url 'add' %}" method="POST">
+                {% csrf_token %}
+                <input type="text" name="task" id="task" required placeholder="Enter your task...">
+                <select name="priority" id="priority">
+                    <option class="high" value="High">High Priority</option>
+                    <option class="medium" value="Medium">Medium Priority</option>
+                    <option class="low" value="Low">Low Priority</option>
+                </select>
+                <input type="date" name="date" id="datetime" required placeholder="Due Date">
+                <button type="submit">Add Task</button>
+            </form>
+            
+            <div class="task">
+                <h2>Your Tasks</h2>
+                {% for i in tasks %}
+                    <div class="form">
+                        <form action="{% url 'mark_complete' i.id %}" method="POST">
+                            {% csrf_token %}
+                            <label><input type="checkbox" name="checkbox" id="checkbox" onchange="this.form.submit()">{{i.task}}</label><br>
+                            <span>{{i.priority}}</span>
+                            <span>{{i.date}}</span>
+                            <a href="{% url 'edit' i.id %}">Update</a>
+                            <a href="{% url 'delete' i.id %}">Delete</a>
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div class="filter">
+                <h4>Filters</h4>
+                <p><a href="{% url 'task' %}">All Tasks</a></p>
+                <p><a href="{% url 'high_priority' %}">High Priority</a></p>
+                <p><a href="{% url 'medium_priority' %}">Medium Priority</a></p>
+                <p><a href="{% url 'low_priority' %}">Low Priority</a></p>
+            </div>
+
+            <div class="complete_task">
+                <h2>Completed Tasks</h2>
+                <div class="completed_task">
+                    {% for i in completed %}
+                      <form action="{% url 'unmark_task' i.id%}" method="POST">
+                        {% csrf_token %}
+                        <label><input type="checkbox" name="checkbox" id="checkbox" checked onchange="this.form.submit()">{{i.task}}</label><br>
+                        <span>{{i.priority}}</span>
+                        <span>{{i.date}}</span>
+                    </form>
+                    {% endfor %}
+                  </div>
+            </div>
+        </div>
+        <form action="{% url 'login' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit">Logut</button>
+        </form>
+    </div>
+</body>
+</html>
