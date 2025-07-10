@@ -58,3 +58,20 @@ It offers a clean and intuitive interface, with backend logic handled by Django 
 
 git clone https://github.com/your-username/your-repo-name.git
 cd your-repo-name
+
+2. Set up a virtual environment
+bash
+Copy
+Edit
+python -m venv venv
+source venv/bin/activate  # On Windows use: venv\Scripts\activate
+3. Install dependencies
+bash
+Copy
+Edit
+pip install -r requirements.txt
+4. Run migrations
+bash
+Copy
+Edit
+python manage.py migrate
