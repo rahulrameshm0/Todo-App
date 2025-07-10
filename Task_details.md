@@ -75,17 +75,17 @@ Visit http://127.0.0.1:8000 to view the app.
 
 /project-root
 │
-├── taskmanager/           # Main Django App
-│   ├── templates/         # HTML templates (login, signup, todo)
-│   ├── static/            # CSS files
-│   ├── models.py          # Task model
-│   ├── views.py           # All logic handled here
-│   ├── urls.py            # Route mapping
-│   └── forms.py           # (if used) Django forms
+├── taskmanager/           
+│   ├── templates/         
+│   ├── static/            
+│   ├── models.py         
+│   ├── views.py          
+│   ├── urls.py            
+│   └── forms.py          
 │
-├── db.sqlite3             # Default database
-├── manage.py              # Django CLI tool
-└── requirements.txt       # List of dependencies
+├── db.sqlite3            
+├── manage.py             
+└── requirements.txt  
 
 
 ## 👨‍💻 Author
