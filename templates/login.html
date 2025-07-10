@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    
     <style>
         * {
     margin: 0;
@@ -340,10 +341,5 @@ form::after {
         <button type="submit">signin</button>
     </form>
     <a href="{% url 'signup' %}">Create an account</a>
-    {% for message in messages %}
-        {% if message %}
-            {{message}}
-        {% endif %}
-    {% endfor %}
 </body>
 </html>

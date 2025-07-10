@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from . models import Task
+
 # Create your views here.
 def sign_in(request):
     if request.method == "POST":
@@ -51,8 +52,8 @@ def signout(request):
 def task(request):
     # task = Task.objects.all()
     # return render(request, 'todo.html', {"details":task})
-    tasks = Task.objects.filter(task_complete=False)
-    completed = Task.objects.filter(task_complete=True)
+    tasks = Task.objects.filter(user=request.user,task_complete=False)
+    completed = Task.objects.filter(user=request.user,task_complete=True)
     return render(request, 'todo.html', {'tasks': tasks, 'completed': completed})
 
 def add_list(request):
@@ -61,7 +62,12 @@ def add_list(request):
         priority = request.POST['priority']
         due_date = request.POST['date']
 
-        new_task = Task(task=task,priority=priority,date=due_date)
+        new_task = Task(
+            user=request.user,  # 👈 Assign the logged-in user
+            task=task,
+            priority=priority,
+            date=due_date
+        )
         new_task.save()
         return redirect('task')
     
@@ -86,16 +92,16 @@ def deleteform(request, id):
 
 
 def high_priority(request):
-    data = Task.objects.filter(priority='High')
+    data = Task.objects.filter(priority='High', user=request.user)
     return render(request, 'todo.html',{'tasks':data})
 
 def medium_priority(request):
-    data = Task.objects.filter(priority='Medium')
+    data = Task.objects.filter(priority='Medium', user=request.user)
     return render(request, 'todo.html',{'tasks':data})
 
 
 def low_priority(request):
-    data = Task.objects.filter(priority='Low')
+    data = Task.objects.filter(priority='Low', user=request.user)
     return render(request, 'todo.html',{'tasks':data})
 
 
