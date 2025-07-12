@@ -69,7 +69,7 @@ python manage.py migrate
 5. Start the development server
 python manage.py runserver
 6. Open in browser
-Visit https://todo-app-dj3t.onrender.com/ to view the app.
+Visit https://todo-app-dj3t.onrender.com to view the app.
 
 ## 📂 Project Structure
 
