@@ -65,7 +65,7 @@ def add_list(request):
         due_date = request.POST['date']
 
         new_task = Task(
-            user=request.user,  # 👈 Assign the logged-in user
+            user=request.user,
             task=task,
             priority=priority,
             date=due_date
